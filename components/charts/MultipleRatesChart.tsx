@@ -2,17 +2,24 @@
 
 import React from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
-import { multipleRatesData } from '@/lib/mockData'
+import { generateMultipleRatesData } from '@/lib/mockData'
 
-export default function MultipleRatesChart() {
+interface MultipleRatesChartProps {
+  year?: number
+}
+
+export default function MultipleRatesChart({ year }: MultipleRatesChartProps) {
+  const data = generateMultipleRatesData(year)
+  const interval = year ? 2 : 11
+
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={multipleRatesData} margin={{ top: 5, right: 5, left: 5, bottom: 25 }}>
+      <LineChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 25 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#30363d" />
         <XAxis 
           dataKey="label" 
           tick={{ fontSize: 10, fill: '#8b949e' }}
-          interval={11}
+          interval={interval}
           stroke="#30363d"
         />
         <YAxis 

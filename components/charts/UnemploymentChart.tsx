@@ -2,17 +2,24 @@
 
 import React from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { unemploymentData } from '@/lib/mockData'
+import { generateUnemploymentData } from '@/lib/mockData'
 
-export default function UnemploymentChart() {
+interface UnemploymentChartProps {
+  year?: number
+}
+
+export default function UnemploymentChart({ year }: UnemploymentChartProps) {
+  const data = generateUnemploymentData(year)
+  const interval = year ? 2 : 11
+
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={unemploymentData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+      <LineChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#30363d" />
         <XAxis 
           dataKey="label" 
           tick={{ fontSize: 10, fill: '#8b949e' }}
-          interval={11}
+          interval={interval}
           stroke="#30363d"
         />
         <YAxis 

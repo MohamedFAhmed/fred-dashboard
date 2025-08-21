@@ -2,17 +2,24 @@
 
 import React from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { interestRatesData } from '@/lib/mockData'
+import { generateInterestRatesData } from '@/lib/mockData'
 
-export default function InterestRatesChart() {
+interface InterestRatesChartProps {
+  year?: number
+}
+
+export default function InterestRatesChart({ year }: InterestRatesChartProps) {
+  const data = generateInterestRatesData(year)
+  const interval = year ? 2 : 11
+
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart data={interestRatesData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+      <LineChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="#30363d" />
         <XAxis 
           dataKey="label" 
           tick={{ fontSize: 10, fill: '#8b949e' }}
-          interval={11}
+          interval={interval}
           stroke="#30363d"
         />
         <YAxis 

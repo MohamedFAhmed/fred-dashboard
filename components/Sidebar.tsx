@@ -1,20 +1,26 @@
 'use client'
 
 import React from 'react'
-import { TrendingUp, Users, Percent, BarChart3, DollarSign, Home, ShoppingCart } from 'lucide-react'
+import { TrendingUp, Users, Percent, BarChart3, DollarSign, Home, ShoppingCart, Cloud } from 'lucide-react'
 
 const menuItems = [
-  { icon: TrendingUp, label: 'Key Indicators', id: 'key-indicators', active: true },
+  { icon: TrendingUp, label: 'Key Indicators', id: 'key-indicators' },
   { icon: Percent, label: 'Inflation', id: 'inflation' },
   { icon: Users, label: 'Employment', id: 'employment' },
   { icon: BarChart3, label: 'Interest Rates', id: 'interest-rates' },
   { icon: TrendingUp, label: 'Economic Growth', id: 'economic-growth' },
   { icon: DollarSign, label: 'Exchange Rates', id: 'exchange-rates' },
   { icon: Home, label: 'Housing', id: 'housing' },
-  { icon: ShoppingCart, label: 'Consumer Spending', id: 'consumer-spending' }
+  { icon: ShoppingCart, label: 'Consumer Spending', id: 'consumer-spending' },
+  { icon: Cloud, label: 'Weather Forecast', id: 'weather-forecast' }
 ]
 
-export default function Sidebar() {
+interface SidebarProps {
+  activeTab?: string
+  onTabChange?: (tabId: string) => void
+}
+
+export default function Sidebar({ activeTab = 'key-indicators', onTabChange }: SidebarProps) {
   return (
     <div className="w-64 h-screen flex flex-col" style={{ backgroundColor: 'var(--bg-secondary)', borderRight: '1px solid var(--border-default)' }}>
       <div className="p-6">
@@ -25,24 +31,26 @@ export default function Sidebar() {
       <nav className="flex-1 px-3">
         {menuItems.map((item) => {
           const Icon = item.icon
+          const isActive = activeTab === item.id
           return (
             <button
               key={item.id}
               className="w-full flex items-center gap-3 px-4 py-2.5 rounded-md mb-1"
               style={{
-                backgroundColor: item.active ? 'var(--accent-primary)' : 'transparent',
-                color: item.active ? 'var(--bg-primary)' : 'var(--text-secondary)',
+                backgroundColor: isActive ? 'var(--accent-primary)' : 'transparent',
+                color: isActive ? 'var(--bg-primary)' : 'var(--text-secondary)',
                 transition: 'all var(--transition-base)',
                 cursor: 'pointer'
               }}
+              onClick={() => onTabChange?.(item.id)}
               onMouseEnter={(e) => {
-                if (!item.active) {
+                if (!isActive) {
                   e.currentTarget.style.backgroundColor = 'var(--bg-tertiary)';
                   e.currentTarget.style.color = 'var(--text-primary)';
                 }
               }}
               onMouseLeave={(e) => {
-                if (!item.active) {
+                if (!isActive) {
                   e.currentTarget.style.backgroundColor = 'transparent';
                   e.currentTarget.style.color = 'var(--text-secondary)';
                 }
